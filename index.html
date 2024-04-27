@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farewell</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #player {
+            width: 100%;
+            height: 100%;
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.8) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        #play-button {
+            cursor: pointer;
+            color: #fff;
+            font-size: 2rem;
+            transition: color 0.3s;
+        }
+
+        #play-button:hover {
+            color: #e50914; /* Netflix red */
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <div id="player"></div>
+        <div id="overlay">
+            <h1>Farewell</h1>
+            <p>Watch our special farewell video</p>
+            <div id="play-button">&#9654;</div>
+        </div>
+    </div>
+
+    <script>
+        // Replace 'VIDEO_ID' with the actual video ID from your unlisted YouTube video
+        const videoId = 'OeAv7lv74iU';
+
+        // Load the YouTube IFrame Player API
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Define the onYouTubeIframeAPIReady function
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                videoId: videoId,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 0,
+                    modestbranding: 1,
+                    playsinline: 1,
+                    fs: 1,
+                    enablejsapi: 1,
+                    suggestedQuality: '2160p', // 4K quality
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                },
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.setVolume(100);
+            event.target.playVideo();
+        }
+
+        // Add click event for the play button
+        document.getElementById('play-button').addEventListener('click', function() {
+            player.playVideo();
+            document.getElementById('overlay').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
